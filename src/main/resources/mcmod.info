@@ -1,14 +1,14 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
+  "modid": "thaumcomp",
+  "name": "Thaumic Computers",
+  "description": "Bringing the Thaumcraft API to OpenComputers Adapters",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
+  "authorList": ["jco2641"],
+  "credits": "Azanor and the OpenComputers team for making awesome mods",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []
