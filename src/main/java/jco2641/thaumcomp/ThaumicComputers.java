@@ -1,6 +1,5 @@
 package jco2641.thaumcomp;
 
-import jco2641.thaumcomp.aspects.ConverterIAspectContainer;
 import jco2641.thaumcomp.aspects.DriverAspectContainer;
 import li.cil.oc.api.Driver;
 import net.minecraftforge.fml.common.Mod;
@@ -23,7 +22,6 @@ public class ThaumicComputers {
     @EventHandler
     public void init(FMLInitializationEvent event) {
         Driver.add(new DriverAspectContainer());
-        Driver.add(new ConverterIAspectContainer());
 
         logger.info("Done with init phase.");
     }

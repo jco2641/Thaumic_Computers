@@ -14,6 +14,9 @@ import li.cil.oc.api.network.ManagedEnvironment;
 import net.minecraft.world.World;
 import jco2641.thaumcomp.util.ManagedTileEntityEnvironment;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class DriverAspectContainer extends DriverSidedTileEntity {
 
     @Override
@@ -34,7 +37,23 @@ public class DriverAspectContainer extends DriverSidedTileEntity {
 
         @Callback(doc = "function():table -- Get the Aspects stored in the block")
         public Object[] getAspects(final Context context, final Arguments args) {
-            return new Object[]{tileEntity};
+            final AspectList list = tileEntity.getAspects();
+            final HashMap<Object,Object> out = new HashMap<>();
+            for (Aspect a : list.getAspects()) {
+                out.put(a.getName(), list.getAmount(a));
+            }
+            return new Object[]{out};
+        }
+
+        @Callback(doc = "function():table -- Get the names of aspects stored in the block")
+        public Object[] getAspectNames(final Context context, final Arguments args) {
+            final AspectList list = tileEntity.getAspects();
+            Aspect[] array = list.getAspects();
+            ArrayList<String> aspectNames = new ArrayList<>();
+            for (int i = 0; i < array.length; i++) {
+                aspectNames.add(array[i].getName());
+            }
+            return new Object[]{aspectNames};
         }
 
         @Callback(doc = "function(aspect:string):number -- Get amount of specific aspect stored in this block")
