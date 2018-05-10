@@ -1,4 +1,13 @@
-# Thaumic_Computers
-Thaumcraft 6 integration for OpenComputers
+# Thaumic Computers
+Thaumcraft 6 API integration for OpenComputers
 
-Working: Read contents from aspect containers
+## Features
+* Read aspects from aspect containers (jars, machines)  - WORKING
+* ???
+* Profit
+
+## Acknowlegements
+* Based on Thaumcraft integration code in OpenComputers 1.6
+* Reference OpenComputers extension mods:
+  * [ActuallyComputers](https://github.com/canitzp/ActuallyComputers)
+  * [TinkersOCDrivers](https://github.com/BrisingrAerowing/TinkersOCDrivers)
