@@ -4,6 +4,7 @@ Thaumcraft 6 API integration for OpenComputers
 ## Features
 * Read aspects from aspect containers (jars, machines) - WORKING
 * Read aspects from items in inventories - WORKING
+* Something something golems?
 * ???
 * Profit
 

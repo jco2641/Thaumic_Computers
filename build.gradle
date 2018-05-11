@@ -55,7 +55,7 @@ minecraft {
     mappings = config.minecraft.mappings
 
     replaceIn "Reference.java"
-    replace "@VERSION@", project.version
+    replace "@VERSION@", project.versionSimple
 }
 
 repositories {
