@@ -7,8 +7,12 @@ Thaumcraft 6 API integration for OpenComputers
 * ???
 * Profit
 
-## Acknowlegements
-* Based on Thaumcraft integration code in OpenComputers 1.6
+## Acknowledgements
+* Based on [Thaumcraft integration code][occode] in [OpenComputers][ocmod] 1.6
 * Reference OpenComputers extension mods:
   * [ActuallyComputers](https://github.com/canitzp/ActuallyComputers)
   * [TinkersOCDrivers](https://github.com/BrisingrAerowing/TinkersOCDrivers)
+
+
+[occode]:https://github.com/MightyPirates/OpenComputers/tree/master-MC1.7.10/src/main/scala/li/cil/oc/integration/thaumcraft
+[ocmod]:https://github.com/MightyPirates/OpenComputers/

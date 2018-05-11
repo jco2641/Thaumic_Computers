@@ -1,6 +1,5 @@
 package jco2641.thaumcomp.aspects;
 
-
 import li.cil.oc.api.driver.Converter;
 import net.minecraft.item.ItemStack;
 import thaumcraft.api.aspects.Aspect;
@@ -9,6 +8,10 @@ import thaumcraft.api.aspects.AspectHelper;
 
 import java.util.HashMap;
 import java.util.Map;
+
+/*
+    Derived from work Copyright (c) 2013-2015 Florian "Sangar" Nücke published under MIT license
+*/
 
 public class ConverterAspectItem implements Converter {
 

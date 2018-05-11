@@ -17,6 +17,10 @@ import jco2641.thaumcomp.util.ManagedTileEntityEnvironment;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/*
+    Derived from work Copyright (c) 2013-2015 Florian "Sangar" Nücke published under MIT license
+*/
+
 public class DriverAspectContainer extends DriverSidedTileEntity {
 
     @Override

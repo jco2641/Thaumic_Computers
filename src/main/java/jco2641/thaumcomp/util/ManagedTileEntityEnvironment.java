@@ -5,6 +5,9 @@ import li.cil.oc.api.driver.NamedBlock;
 import li.cil.oc.api.network.Visibility;
 import li.cil.oc.api.prefab.AbstractManagedEnvironment;
 
+/*
+    Derived from work Copyright (c) 2013-2015 Florian "Sangar" Nücke published under MIT license
+*/
 
 public class ManagedTileEntityEnvironment<T> extends AbstractManagedEnvironment implements NamedBlock {
     protected final T tileEntity;
