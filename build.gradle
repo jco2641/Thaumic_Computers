@@ -63,6 +63,7 @@ repositories {
 }
 dependencies {
     compile "li.cil.oc:OpenComputers:MC1.12.2-1.7.2.67:api"
+    provided files('lib/Thaumcraft-1.12.2-6.1.Beta13-deobf.jar')
 }
 
 processResources {
