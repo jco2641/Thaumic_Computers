@@ -2,6 +2,8 @@ package jco2641.thaumcomp;
 
 import jco2641.thaumcomp.aspects.ConverterAspectItem;
 import jco2641.thaumcomp.aspects.DriverAspectContainer;
+import jco2641.thaumcomp.golems.seals.DriverSeal;
+import jco2641.thaumcomp.golems.seals.DriverSealEntity;
 import li.cil.oc.api.Driver;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -25,6 +27,10 @@ public class ThaumicComputers {
         Driver.add(new DriverAspectContainer());
         Driver.add(new ConverterAspectItem());
 
+/*  These don't seem to work
+        Driver.add(new DriverSealEntity());
+        Driver.add(new DriverSeal());
+*/
         logger.info("Done with init phase.");
     }
 }

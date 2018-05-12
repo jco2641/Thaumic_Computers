@@ -9,26 +9,14 @@ import li.cil.oc.api.prefab.AbstractManagedEnvironment;
     Derived from work Copyright (c) 2013-2015 Florian "Sangar" Nücke published under MIT license
 */
 
-public class ManagedTileEntityEnvironment<T> extends AbstractManagedEnvironment implements NamedBlock {
+public class ManagedTileEntityEnvironment<T> extends AbstractManagedEnvironment {
     protected final T tileEntity;
-    private String name;
 
     public ManagedTileEntityEnvironment(final T tileEntity, final String name) {
         this.tileEntity = tileEntity;
-        this.name = name;
 
         setNode(Network.newNode(this, Visibility.Network).
                 withComponent(name).
                 create());
-    }
-
-    @Override
-    public String preferredName() {
-        return this.name;
-    }
-
-    @Override
-    public int priority() {
-        return 5;
     }
 }
