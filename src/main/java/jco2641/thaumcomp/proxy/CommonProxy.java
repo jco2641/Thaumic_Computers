@@ -1,8 +1,10 @@
 package jco2641.thaumcomp.proxy;
 
+import jco2641.thaumcomp.items.SealConnector;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -16,6 +18,7 @@ import jco2641.thaumcomp.aspects.DriverAspectContainer;
 import jco2641.thaumcomp.golems.seals.DriverSeal;
 import jco2641.thaumcomp.golems.seals.DriverSealEntity;
 
+@Mod.EventBusSubscriber
 public class CommonProxy {
 
     public void preInit(FMLPreInitializationEvent event) {
@@ -46,8 +49,9 @@ public class CommonProxy {
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
 /*
-        // Basic item
+        // Basic assets.thaumcomp.textures.items
         event.getRegistry().register(new ItemClass());
 */
+        event.getRegistry().register(new SealConnector());
     }
 }
