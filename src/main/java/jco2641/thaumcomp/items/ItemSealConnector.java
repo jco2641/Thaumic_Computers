@@ -8,8 +8,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import thaumcraft.api.golems.ISealDisplayer;
 
-public class SealConnector extends Item implements ISealDisplayer {
-    public SealConnector() {
+public class ItemSealConnector extends Item implements ISealDisplayer {
+    public ItemSealConnector() {
         setRegistryName("sealconnector");
         setUnlocalizedName(Reference.MODID + ".sealconnector");
     }

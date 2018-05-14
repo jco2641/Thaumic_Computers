@@ -1,6 +1,6 @@
 package jco2641.thaumcomp.proxy;
 
-import jco2641.thaumcomp.items.SealConnector;
+import jco2641.thaumcomp.items.ItemSealConnector;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 
@@ -52,6 +52,6 @@ public class CommonProxy {
         // Basic assets.thaumcomp.textures.items
         event.getRegistry().register(new ItemClass());
 */
-        event.getRegistry().register(new SealConnector());
+        event.getRegistry().register(new ItemSealConnector());
     }
 }
