@@ -45,6 +45,9 @@ public class CommonProxy {
 
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
-        // Do things
+/*
+        // Basic item
+        event.getRegistry().register(new ItemClass());
+*/
     }
 }
