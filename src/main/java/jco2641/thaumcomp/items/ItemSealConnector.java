@@ -1,6 +1,7 @@
 package jco2641.thaumcomp.items;
 
 import jco2641.thaumcomp.Reference;
+import li.cil.oc.api.Driver;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,7 +14,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
@@ -32,6 +32,10 @@ public class ItemSealConnector extends Item implements ISealDisplayer {
     @SideOnly(Side.CLIENT)
     public void initModel() {
         ModelLoader.setCustomModelResourceLocation(this,0,new ModelResourceLocation(getRegistryName(),"inventory"));
+    }
+
+    int tierFromDriver(ItemStack stack){
+        return Driver.driverFor(stack).tier(stack);
     }
 
     public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
@@ -65,7 +69,7 @@ public class ItemSealConnector extends Item implements ISealDisplayer {
                     NBTTagCompound data = stack.getTagCompound();
                     if(data.hasKey("thaumcomp:coord")&&data.hasKey("thaumcomp:sealName")){
                         int[] tag = data.getIntArray("thaumcomp:coord");
-                        String face = EnumFacing.values()[tag[4]].getName();
+                        String face = EnumFacing.getFront(tag[4]).getName();
                         String nametag = data.getString("thaumcomp:sealName");
                         String message = String.format("Seal connector bound to:\n%s\nDim: %d\nX: %d\nY: %d\nZ: %d\nFace: %s",nametag,tag[3],tag[0],tag[1],tag[2],face);
                         player.sendMessage(new TextComponentString(message));

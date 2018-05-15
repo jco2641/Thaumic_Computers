@@ -1,6 +1,5 @@
 package jco2641.thaumcomp.proxy;
 
-import jco2641.thaumcomp.items.ItemSealConnector;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 
@@ -12,11 +11,12 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.event.RegistryEvent;
 
 import li.cil.oc.api.Driver;
+import li.cil.oc.api.driver.DriverItem;
 
 import jco2641.thaumcomp.aspects.ConverterAspectItem;
 import jco2641.thaumcomp.aspects.DriverAspectContainer;
-import jco2641.thaumcomp.golems.seals.DriverSeal;
-import jco2641.thaumcomp.golems.seals.DriverSealEntity;
+import jco2641.thaumcomp.golems.seals.DriverSealConnector;
+import jco2641.thaumcomp.items.ItemSealConnector;
 
 @Mod.EventBusSubscriber
 public class CommonProxy {
@@ -30,11 +30,7 @@ public class CommonProxy {
         // Add OC Drivers
         Driver.add(new DriverAspectContainer());
         Driver.add(new ConverterAspectItem());
-
-        //  FIXME: Seals are tile entities but the scanning that the adapter does is not detecting them
-        Driver.add(new DriverSealEntity());
-        Driver.add(new DriverSeal());
-
+        Driver.add((DriverItem) new DriverSealConnector());
     }
 
     public void postInit(FMLPostInitializationEvent event) {
