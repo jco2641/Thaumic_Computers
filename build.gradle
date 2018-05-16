@@ -1,3 +1,5 @@
+import co.riiid.gradle.GithubExtension
+
 buildscript {
     repositories {
         jcenter()
@@ -5,10 +7,11 @@ buildscript {
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath 'co.riiid:gradle-github-plugin:0.4.2'
     }
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
-//Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
+apply plugin: 'co.riiid.gradle'
 
 file "build.properties" withReader {
     def prop = new Properties()
@@ -98,3 +101,16 @@ task updateVersion {
 }
 
 build.dependsOn updateVersion
+
+
+
+github {
+    owner = "jco2641"
+    repo = "Thaumic_Computers"
+    token = GITHUB_API
+    tagName = "release-" + config.mod.version
+    name = "Version " + config.mod.version
+    body = new File('CHANGELOG.md').text
+    draft = true
+    assets = files { srcDir.listFiles() } as List
+}
