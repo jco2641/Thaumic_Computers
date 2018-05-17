@@ -101,8 +101,7 @@ task updateVersion {
 }
 
 build.dependsOn updateVersion
-
-def srcDir = file('build/libs')
+githubRelease.dependsOn build
 
 github {
     owner = "jco2641"
@@ -112,5 +111,9 @@ github {
     name = "Version " + config.mod.version
     body = new File('CHANGELOG.md').text
     draft = true
-    assets = files { srcDir.listFiles() } as List
+    assets = [
+            "build/libs/${project.archivesBaseName}-${project.version}.jar",
+            "build/libs/${project.archivesBaseName}-${project.version}-deobf.jar",
+            "build/libs/${project.archivesBaseName}-${project.version}-sources.jar"
+    ]
 }
