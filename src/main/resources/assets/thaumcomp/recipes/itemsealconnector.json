@@ -1,0 +1,35 @@
+{
+  "conditions":[
+    {
+      "type":"forge:mod_loaded",
+      "modid":"opencomputers"
+    },
+    {
+      "type":"forge:mod_loaded",
+      "modid":"thaumcraft"
+    }
+  ],
+  "result":{
+    "item":"thaumcomp:sealconnector"
+  },
+  "type":"minecraft:crafting_shaped",
+  "pattern":[
+    " @ ",
+    "#$#",
+    " @ "
+  ],
+  "key":{
+    "@":{
+      "item":"thaumcraft:crystal_essence",
+      "data":32767
+    },
+    "#":{
+      "item":"opencomputers:card",
+      "data":9
+    },
+    "$":{
+      "item":"opencomputers:adapter",
+      "data":32767
+    }
+  }
+}
