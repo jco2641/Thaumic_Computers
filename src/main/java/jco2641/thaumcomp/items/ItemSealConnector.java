@@ -4,10 +4,12 @@ import jco2641.thaumcomp.Reference;
 import li.cil.oc.api.Driver;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -24,10 +26,16 @@ import thaumcraft.api.golems.seals.SealPos;
 import thaumcraft.common.entities.construct.golem.seals.SealHandler;
 
 public class ItemSealConnector extends Item implements ISealDisplayer {
+
     public ItemSealConnector() {
         setRegistryName("sealconnector");
         setUnlocalizedName(Reference.MODID + ".sealconnector");
+        setMaxStackSize(1);
+        setCreativeTab(CreativeTabs.MISC);
     }
+
+    //TODO: onRightClick to show info when clicked in the air
+
 
     @SideOnly(Side.CLIENT)
     public void initModel() {
@@ -38,6 +46,46 @@ public class ItemSealConnector extends Item implements ISealDisplayer {
         return Driver.driverFor(stack).tier(stack);
     }
 
+    @Override
+    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+        ItemStack stack = player.getHeldItem(hand);
+
+        if(!world.isRemote){
+            if(stack.hasTagCompound()){
+                NBTTagCompound data = stack.getTagCompound();
+                if(data.hasNoTags()){
+                    player.sendMessage(new TextComponentString("Seal connector not bound"));
+                    return new ActionResult<>(EnumActionResult.PASS,stack);
+                }
+                if(!player.isSneaking()) {
+                    //display binding when not sneaking
+                    if(data.hasKey("thaumcomp:coord")&&data.hasKey("thaumcomp:sealName")){
+                        int[] tag = data.getIntArray("thaumcomp:coord");
+                        String face = EnumFacing.getFront(tag[4]).getName();
+                        String nametag = data.getString("thaumcomp:sealName");
+                        String message = String.format("Seal connector bound to:\n%s\nDim: %d\nX: %d\nY: %d\nZ: %d\nFace: %s",nametag,tag[3],tag[0],tag[1],tag[2],face);
+                        player.sendMessage(new TextComponentString(message));
+                    } else {
+                        player.sendMessage(new TextComponentString("Seal connector not bound"));
+                        return new ActionResult<>(EnumActionResult.PASS,stack);
+                    }
+
+                    return new ActionResult<>(EnumActionResult.SUCCESS,stack);
+                } else {
+                    //clear binding when sneaking
+                    data.removeTag("thaumcomp:sealName");
+                    data.removeTag("thaumcomp:coord");
+                    player.sendMessage(new TextComponentString("Seal connector binding removed"));
+                    return new ActionResult<>(EnumActionResult.SUCCESS,stack);
+                }
+            } else {
+                player.sendMessage(new TextComponentString("Seal connector not bound"));
+            }
+        }
+        return new ActionResult<>(EnumActionResult.PASS,stack);
+    }
+//FIXME: both of them are getting called when clicking on a block :(
+    @Override
     public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         ItemStack stack = player.getHeldItem(hand);
         if(!world.isRemote) {
@@ -65,20 +113,22 @@ public class ItemSealConnector extends Item implements ISealDisplayer {
                     player.sendMessage(new TextComponentString("No seal there"));
                 }
             } else {
-                if(stack.hasTagCompound()){
+                if (stack.hasTagCompound()) {
                     NBTTagCompound data = stack.getTagCompound();
-                    if(data.hasKey("thaumcomp:coord")&&data.hasKey("thaumcomp:sealName")){
+                    if (data.hasKey("thaumcomp:coord") && data.hasKey("thaumcomp:sealName")) {
                         int[] tag = data.getIntArray("thaumcomp:coord");
                         String face = EnumFacing.getFront(tag[4]).getName();
                         String nametag = data.getString("thaumcomp:sealName");
-                        String message = String.format("Seal connector bound to:\n%s\nDim: %d\nX: %d\nY: %d\nZ: %d\nFace: %s",nametag,tag[3],tag[0],tag[1],tag[2],face);
+                        String message = String.format("Seal connector bound to:\n%s\nDim: %d\nX: %d\nY: %d\nZ: %d\nFace: %s", nametag, tag[3], tag[0], tag[1], tag[2], face);
                         player.sendMessage(new TextComponentString(message));
+                    } else {
+                        player.sendMessage(new TextComponentString("Seal connector not bound"));
                     }
                 } else {
                     player.sendMessage(new TextComponentString("Seal connector not bound"));
                 }
             }
         }
-        return EnumActionResult.PASS;
+        return EnumActionResult.SUCCESS;
     }
 }

@@ -25,14 +25,14 @@ public final class EnvironmentSealEntity extends ManagedTileEntityEnvironment<IS
         super(te,"golem_seal");
     }
 
-    @Callback(doc = "function():table -- Get the name of the owner of the seal")
+    @Callback(doc = "function():string -- Get the name of the owner of the seal")
     public Object[] getOwner(final Context context, final Arguments args) {
         final String owner = tileEntity.getOwner();   // player.getUniqueID() of player that placed it
         final String ownerName = UsernameCache.getLastKnownUsername(UUID.fromString(owner));
         return new Object[]{ownerName};
     }
 
-    @Callback(doc = "function():table -- Get the type of the seal")
+    @Callback(doc = "function():string -- Get the type of the seal")
     public Object[] getType(final Context context, final Arguments args){
         final String sealType = tileEntity.getSeal().getKey();
         final String sealULName = String.format("item.seal.%s.name",sealType.split(":")[1]);
@@ -49,7 +49,7 @@ public final class EnvironmentSealEntity extends ManagedTileEntityEnvironment<IS
         return new Object[]{out};
     }
 
-    @Callback(doc = "function():table -- Get the seal color")
+    @Callback(doc = "function():string -- Get the seal color")
     public Object[] getColor(final Context context, final Arguments args) {
         final byte color = tileEntity.getColor();
         String colorName;
@@ -61,11 +61,26 @@ public final class EnvironmentSealEntity extends ManagedTileEntityEnvironment<IS
         return new Object[]{colorName};
     }
 
-    @Callback(doc = "function():table -- Does the seal get disabled by redstone signals")
-    public Object[] getRedstoneSensitive(final Context context, final Arguments args) {
+    @Callback(doc = "function():boolean -- Does the seal get disabled by redstone signals")
+    public Object[] getIsRedstoneSensitive(final Context context, final Arguments args) {
         final boolean sensitive = tileEntity.isRedstoneSensitive();
         return new Object[]{sensitive};
     }
+
+    @Callback(doc = "function():boolean -- Is the seal locked")
+    public Object[] getIsLocked(final Context context, final Arguments args) {
+        final boolean locked = tileEntity.isLocked();
+        return new Object[]{locked};
+    }
+
+/*  FIXME: Figure out how to get the world object from here
+    @Callback(doc = "function():boolean -- Is the seal currently disabled by redstone signal")
+    public Object[] isStoppedByRedstone(final Context context, final Arguments args){
+        //get my world somehow
+        final boolean stopped = tileEntity.isStoppedByRedstone(world);
+        return new Object[]{stopped};
+    }
+*/
 
     @Callback(doc = "function:table -- Get the tags golems must have to obey this seal")
     public Object[] getRequiredTags(final Context context, final Arguments args) {
@@ -110,9 +125,7 @@ public final class EnvironmentSealEntity extends ManagedTileEntityEnvironment<IS
             final NonNullList<ItemStack> itemStacks = ((SealFiltered) tileEntity.getSeal()).getInv();
             final HashMap<Object,Object> out = new HashMap<>();
             final ArrayList<Object> items = new ArrayList<>();
-            final HashMap<Object,Object> filterProps = new HashMap<>();
 
-            // Without iSealConfigToggles
             // Map: {blacklist=true/false,items=[item1,item2..itemN]}
 
             out.put("blacklist",blacklist);
@@ -122,17 +135,33 @@ public final class EnvironmentSealEntity extends ManagedTileEntityEnvironment<IS
             }
             out.put("items",items);
 
-            // With iSealConfigToggles
-            // Add Map: {properties={name1=value1..nameN=valueN}}
-            if(tileEntity.getSeal() instanceof ISealConfigToggles){
-                final ISealConfigToggles.SealToggle[] toggles = (((ISealConfigToggles) tileEntity.getSeal()).getToggles());
-                for(ISealConfigToggles.SealToggle s : toggles){
-                    filterProps.put(I18n.format(s.getName()), s.getValue());
-                }
-                out.put("properties",filterProps);
-            }
             return new Object[]{out};
         }
         return new Object[]{"No filter"};
     }
+
+    @Callback(doc = "getProperties():table -- Get configuration toggles")
+    public Object[] getProperties(final Context context, final Arguments args){
+        final HashMap<Object,Object> filterProps = new HashMap<>();
+        final HashMap<Object,Object> out = new HashMap<>();
+
+        if(tileEntity.getSeal() instanceof ISealConfigToggles){
+            final ISealConfigToggles.SealToggle[] toggles = (((ISealConfigToggles) tileEntity.getSeal()).getToggles());
+            for(ISealConfigToggles.SealToggle s : toggles){
+                filterProps.put(I18n.format(s.getName()), s.getValue());
+            }
+            out.put("properties",filterProps);
+            return new Object[]{out};
+        }
+        return new Object[]{"No properties"};
+    }
+
+    @Callback(doc = "function():int")
+    public Object[] getPriority(final Context context, final Arguments args){
+        final byte priority = tileEntity.getPriority();
+        return new Object[] {priority};
+    }
+
+
+
 }
