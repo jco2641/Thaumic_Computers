@@ -127,7 +127,9 @@ curseforge {
         changelog = file("CHANGELOG.md")
         releaseType = "release"
 
-        mainArtifact jar
+        mainArtifact(jar) {
+            displayName = "${project.archivesBaseName}-${project.version}.jar"
+        }
         addArtifact deobfJar
         addArtifact sourceJar
     }
