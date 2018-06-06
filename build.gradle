@@ -8,11 +8,17 @@ buildscript {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
         classpath 'co.riiid:gradle-github-plugin:0.4.2'
         classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.0.10"
+        classpath "org.ajoberstar.reckon:reckon-gradle:0.7.0"
     }
 }
+//ForgeGradle
 apply plugin: 'net.minecraftforge.gradle.forge'
+//GithubRelease
 apply plugin: 'co.riiid.gradle'
+//CurseGradle
 apply plugin: "com.matthewprenger.cursegradle"
+//Reckon projhect version
+apply plugin: "org.ajoberstar.reckon"
 
 file "build.properties" withReader {
     def prop = new Properties()
@@ -20,21 +26,31 @@ file "build.properties" withReader {
     ext.config = new ConfigSlurper().parse prop
 }
 
-file "version.properties" withReader {
-    def prop = new Properties()
-    prop.load(it)
-    ext.ver = new ConfigSlurper().parse prop
+//version starts out inferred by reckon
+//final 	    <major>.<minor>.<patch>                                 1.2.3
+//significant   <major>.<minor>.<patch>-<stage>.<num> 	                1.3.0-rc.1
+//insignificant <major>.<minor>.<patch>-<stage>.<num>.<commits>+<hash> 	1.3.0-rc.1.8+3bb416187b0a478677b274ae29fb4deb664acda3
+
+reckon {
+    scopeFromProp()
+    stageFromProp('beta', 'rc', 'final')
 }
 
-version = config.mod.version + "." + ver.BUILD_NUMBER
+// example command lines
+// ./gradlew build
+// ./gradlew build reckonTagPush -Preckon.scope=patch -Preckon.stage=beta
+// ./gradlew build reckonTagPush -Preckon.scope=minor -Preckon.stage=rc
+// ./gradlew build reckonTagPush -Preckon.scope=major -Preckon.stage=final
+
 group = config.mod.group
 archivesBaseName = config.mod.name
 
-ext.versionSimple = version
+ext.versionSimple = (String)version
 
 version = "MC${config.minecraft.version}-${project.version}"
 
 //file name ends up archiveBaseName-version-classifier.jar
+//Example: ThaumicComputers-MC1.12.2-0.3.0-deobf.jar
 
 sourceCompatibility = targetCompatibility = '1.8'
 compileJava {
@@ -87,29 +103,14 @@ artifacts {
     archives sourceJar
 }
 
-task updateVersion {
-    doFirst {
-        def versionPropsFile = file('version.properties')
-        def versionBuild
-        if (versionPropsFile.canRead()) {
-            Properties versionProps = new Properties()
-            versionProps.load(new FileInputStream(versionPropsFile))
-            versionBuild = versionProps['BUILD_NUMBER'].toInteger() + 1
-            versionProps['BUILD_NUMBER'] = versionBuild.toString()
-            versionProps.store(versionPropsFile.newWriter(), null)
-        }
-    }
-}
-
-build.dependsOn updateVersion
 githubRelease.dependsOn build
 
 github {
     owner = "jco2641"
     repo = "Thaumic_Computers"
     token = GITHUB_API
-    tagName = "release-" + config.mod.version
-    name = "Version " + config.mod.version
+    tagName = "v" + project.versionSimple
+    name = "Version " + project.versionSimple
     body = new File('CHANGELOG.md').text
     draft = true
     assets = [
