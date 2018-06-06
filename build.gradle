@@ -36,10 +36,26 @@ reckon {
     stageFromProp('beta', 'rc', 'final')
 }
 
-// example command lines
-// ./gradlew build
+// Command lines
+// ./gradlew build (defaults to minor, beta)
+// --
+// Dev builds (no release from CI)
+// ./gradlew build -Preckon.scope=patch -Preckon.stage=beta
+// ./gradlew build -Preckon.scope=minor -Preckon.stage=beta
+// ./gradlew build -Preckon.scope=major -Preckon.stage=beta
+// --
+// Tags will cause releases from CI
+// --
 // ./gradlew build reckonTagPush -Preckon.scope=patch -Preckon.stage=beta
+// ./gradlew build reckonTagPush -Preckon.scope=patch -Preckon.stage=rc
+// ./gradlew build reckonTagPush -Preckon.scope=patch -Preckon.stage=final
+// --
+// ./gradlew build reckonTagPush -Preckon.scope=minor -Preckon.stage=beta
 // ./gradlew build reckonTagPush -Preckon.scope=minor -Preckon.stage=rc
+// ./gradlew build reckonTagPush -Preckon.scope=minor -Preckon.stage=final
+// --
+// ./gradlew build reckonTagPush -Preckon.scope=major -Preckon.stage=beta
+// ./gradlew build reckonTagPush -Preckon.scope=major -Preckon.stage=rc
 // ./gradlew build reckonTagPush -Preckon.scope=major -Preckon.stage=final
 
 group = config.mod.group
