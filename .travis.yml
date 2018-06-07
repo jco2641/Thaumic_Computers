@@ -14,11 +14,10 @@ deploy:
     on:
       tags: true
   - provider: script
-    script: ./gradlew curseforge
+    script: if [[ ! $TRAVIS_TAG =~ "-" ]]; then ./gradlew curseforge ; fi ;
     skip_cleanup: true
     on:
       tags: true
-      condition: ! $TRAVIS_TAG =~ "-"
 
 notifications:
   email: false
