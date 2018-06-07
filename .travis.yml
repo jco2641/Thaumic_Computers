@@ -19,9 +19,6 @@ deploy:
 notifications:
   email: false
 
-git:
-  depth: 3
-
 cache:
   directories:
     - $HOME/.gradle/caches
