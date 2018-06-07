@@ -8,11 +8,17 @@ script:
   ./gradlew build
 
 deploy:
-  provider: script
-  script: ./gradlew githubRelease
-  skip_cleanup: true
-  on:
-    tags: true
+  - provider: script
+    script: ./gradlew githubRelease
+    skip_cleanup: true
+    on:
+      tags: true
+  - provider: script
+    script: ./gradlew curseforge
+    skip_cleanup: true
+    on:
+      tags: true
+      condition: ! $TRAVIS_TAG =~ "-"
 
 notifications:
   email: false

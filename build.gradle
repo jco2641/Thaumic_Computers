@@ -125,7 +125,7 @@ github {
     owner = "jco2641"
     repo = "Thaumic_Computers"
     token = GITHUB_API
-    tagName = "v" + project.versionSimple
+    tagName = project.versionSimple
     name = "Version " + project.versionSimple
     body = new File('CHANGELOG.md').text
     draft = true
