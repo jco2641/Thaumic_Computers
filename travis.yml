@@ -1,0 +1,24 @@
+language: java
+sudo: false
+jdk: oraclejdk8
+
+install: ./gradlew setupCIWorkspace
+script: ./gradlew build
+
+deploy:
+  provider: script
+  script: ./gradlew githubRelease
+  skip_cleanup: true
+  on:
+    tags: true
+
+notifications:
+  email: false
+
+git:
+  depth: 3
+
+cache:
+  directories:
+    - $HOME/.gradle/caches
+    - $HOME/.gradle/wrapper/
