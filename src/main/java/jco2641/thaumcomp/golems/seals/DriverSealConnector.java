@@ -13,6 +13,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import thaumcraft.api.golems.seals.ISealEntity;
 import thaumcraft.api.golems.seals.SealPos;
+import thaumcraft.api.golems.GolemHelper;
 import thaumcraft.common.entities.construct.golem.seals.SealHandler;
 
 public class DriverSealConnector extends DriverItem implements HostAware, EnvironmentProvider {
@@ -50,7 +51,7 @@ public class DriverSealConnector extends DriverItem implements HostAware, Enviro
                     if(host.world().provider.getDimension() == tag[3]){
                         BlockPos pos = new BlockPos(tag[0],tag[1],tag[2]);
                         EnumFacing facing = EnumFacing.getFront(tag[4]);
-                        ISealEntity se = SealHandler.getSealEntity(tag[3], new SealPos(pos, facing));
+                        ISealEntity se = GolemHelper.getSealEntity(tag[3], new SealPos(pos, facing));
                         if(se != null){
                             return new EnvironmentSealEntity(se);
                         }

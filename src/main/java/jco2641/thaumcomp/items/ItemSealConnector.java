@@ -23,7 +23,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import thaumcraft.api.golems.ISealDisplayer;
 import thaumcraft.api.golems.seals.ISealEntity;
 import thaumcraft.api.golems.seals.SealPos;
-import thaumcraft.common.entities.construct.golem.seals.SealHandler;
+import thaumcraft.api.golems.GolemHelper;
 
 public class ItemSealConnector extends Item implements ISealDisplayer {
 
@@ -91,7 +91,7 @@ public class ItemSealConnector extends Item implements ISealDisplayer {
         if(!world.isRemote) {
             if(player.isSneaking()) {
                 int dim = world.provider.getDimension();
-                ISealEntity se = SealHandler.getSealEntity(dim, new SealPos(pos, side));
+                ISealEntity se = GolemHelper.getSealEntity(dim, new SealPos(pos, side));
                 if (se != null) {
                     player.swingArm(hand);
                     if (!stack.hasTagCompound()) {

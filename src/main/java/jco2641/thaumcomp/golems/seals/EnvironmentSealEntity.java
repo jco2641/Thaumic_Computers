@@ -1,19 +1,22 @@
 package jco2641.thaumcomp.golems.seals;
 
 import jco2641.thaumcomp.util.ManagedTileEntityEnvironment;
+
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
+
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.UsernameCache;
+
 import thaumcraft.api.golems.EnumGolemTrait;
 import thaumcraft.api.golems.seals.ISealConfigToggles;
 import thaumcraft.api.golems.seals.ISealEntity;
-import thaumcraft.common.entities.construct.golem.seals.SealFiltered;
+import thaumcraft.api.golems.seals.ISealConfigFilter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -110,8 +113,8 @@ public final class EnvironmentSealEntity extends ManagedTileEntityEnvironment<IS
 
     @Callback(doc = "function():table -- Get the size of the filter in the seal")
     public Object[] getFilterSize(final Context context, final Arguments args){
-        if(tileEntity.getSeal() instanceof SealFiltered){
-            int size = ((SealFiltered)tileEntity.getSeal()).getFilterSize();
+        if(tileEntity.getSeal() instanceof ISealConfigFilter){
+            int size = ((ISealConfigFilter)tileEntity.getSeal()).getFilterSize();
             return new Object[]{size};
         }
         return new Object[]{"0"};
@@ -119,10 +122,10 @@ public final class EnvironmentSealEntity extends ManagedTileEntityEnvironment<IS
 
     @Callback(doc = "function():table -- Get the filter properties and contents")
     public Object[] getFilter(final Context context, final Arguments args){
-        if(tileEntity.getSeal() instanceof SealFiltered){
+        if(tileEntity.getSeal() instanceof ISealConfigFilter){
 
-            final boolean blacklist = ((SealFiltered) tileEntity.getSeal()).isBlacklist();
-            final NonNullList<ItemStack> itemStacks = ((SealFiltered) tileEntity.getSeal()).getInv();
+            final boolean blacklist = ((ISealConfigFilter) tileEntity.getSeal()).isBlacklist();
+            final NonNullList<ItemStack> itemStacks = ((ISealConfigFilter) tileEntity.getSeal()).getInv();
             final HashMap<Object,Object> out = new HashMap<>();
             final ArrayList<Object> items = new ArrayList<>();
 
