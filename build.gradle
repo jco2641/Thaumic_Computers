@@ -59,11 +59,11 @@ reckon {
 // ./gradlew build reckonTagPush -Preckon.scope=major -Preckon.stage=final
 
 group = config.mod.group
-archivesBaseName = config.mod.name
+archivesBaseName = "${config.mod.name}-MC${config.minecraft.version}"
 
 ext.versionSimple = (String)version
 
-version = "MC${config.minecraft.version}-${project.version}"
+//version = "MC${config.minecraft.version}-${project.version}"
 
 //file name ends up archiveBaseName-version-classifier.jar
 //Example: ThaumicComputers-MC1.12.2-0.3.0-deobf.jar
