@@ -14,7 +14,6 @@ import net.minecraft.util.math.BlockPos;
 import thaumcraft.api.golems.seals.ISealEntity;
 import thaumcraft.api.golems.seals.SealPos;
 import thaumcraft.api.golems.GolemHelper;
-import thaumcraft.common.entities.construct.golem.seals.SealHandler;
 
 public class DriverSealConnector extends DriverItem implements HostAware, EnvironmentProvider {
 
