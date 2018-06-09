@@ -34,8 +34,6 @@ public class ItemSealConnector extends Item implements ISealDisplayer {
         setCreativeTab(CreativeTabs.MISC);
     }
 
-    //TODO: onRightClick to show info when clicked in the air
-
 
     @SideOnly(Side.CLIENT)
     public void initModel() {
@@ -84,7 +82,7 @@ public class ItemSealConnector extends Item implements ISealDisplayer {
         }
         return new ActionResult<>(EnumActionResult.PASS,stack);
     }
-//FIXME: both of them are getting called when clicking on a block :(
+
     @Override
     public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         ItemStack stack = player.getHeldItem(hand);
