@@ -8,7 +8,7 @@ buildscript {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
         classpath 'co.riiid:gradle-github-plugin:0.4.2'
         classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.0.10"
-        classpath "org.ajoberstar.reckon:reckon-gradle:0.7.0"
+        classpath "org.ajoberstar.reckon:reckon-gradle:0.8.0"
     }
 }
 //ForgeGradle
@@ -17,7 +17,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'co.riiid.gradle'
 //CurseGradle
 apply plugin: "com.matthewprenger.cursegradle"
-//Reckon projhect version
+//Reckon project version
 apply plugin: "org.ajoberstar.reckon"
 
 file "build.properties" withReader {
@@ -87,7 +87,7 @@ repositories {
 }
 dependencies {
     compile "li.cil.oc:OpenComputers:${config.oc.version}:api"
-    provided files('lib/Thaumcraft-1.12.2-6.1.Beta16-deobf.jar')
+    provided files('lib/Thaumcraft-1.12.2-6.1.Beta17-deobf.jar')
 }
 
 processResources {
