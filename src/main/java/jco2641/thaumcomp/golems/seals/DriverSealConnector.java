@@ -52,7 +52,7 @@ public class DriverSealConnector extends DriverItem implements HostAware, Enviro
                         EnumFacing facing = EnumFacing.getFront(tag[4]);
                         ISealEntity se = GolemHelper.getSealEntity(tag[3], new SealPos(pos, facing));
                         if(se != null){
-                            return new EnvironmentSealEntity(se);
+                            return new EnvironmentSealEntity(se, host.world());
                         }
                     }
                 }

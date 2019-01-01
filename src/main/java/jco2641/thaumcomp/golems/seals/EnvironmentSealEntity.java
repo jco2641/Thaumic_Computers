@@ -9,8 +9,8 @@ import li.cil.oc.api.machine.Context;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.common.UsernameCache;
 
 import thaumcraft.api.golems.EnumGolemTrait;
@@ -24,8 +24,11 @@ import java.util.UUID;
 
 public final class EnvironmentSealEntity extends ManagedTileEntityEnvironment<ISealEntity> {
 
-    public EnvironmentSealEntity(final ISealEntity te ) {
+    private World world;
+
+    public EnvironmentSealEntity(final ISealEntity te, World world) {
         super(te,"golem_seal");
+        this.world = world;
     }
 
     /* ================ *\
@@ -211,14 +214,11 @@ public final class EnvironmentSealEntity extends ManagedTileEntityEnvironment<IS
         return new Object[]{sensitive};
     }
 
-/*  FIXME: Figure out how to get the world object from here
     @Callback(doc = "function():boolean -- Is the seal currently disabled by redstone signal")
-    public Object[] isStoppedByRedstone(final Context context, final Arguments args){
-        //get my world somehow
+    public Object[] getIsStoppedByRedstone(final Context context, final Arguments args){
         final boolean stopped = tileEntity.isStoppedByRedstone(world);
         return new Object[]{stopped};
     }
-*/
 
     @Callback(doc = "function():string -- Get the name of the owner of the seal")
     public Object[] getOwner(final Context context, final Arguments args) {

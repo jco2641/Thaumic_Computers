@@ -1,7 +1,6 @@
 package jco2641.thaumcomp.util;
 
 import li.cil.oc.api.Network;
-import li.cil.oc.api.driver.NamedBlock;
 import li.cil.oc.api.network.Visibility;
 import li.cil.oc.api.prefab.AbstractManagedEnvironment;
 
