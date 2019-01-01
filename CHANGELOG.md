@@ -1,4 +1,4 @@
-**Release 0.3.1**
+**Release 0.4.0**
 
     * Update to Thaumcraft 6.1 Beta 16+
 
