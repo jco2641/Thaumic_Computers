@@ -22,7 +22,7 @@ public class ItemTooltipEventHandler {
                     int[] tag = data.getIntArray("thaumcomp:coord");
                     String face = EnumFacing.getFront(tag[4]).getName();
                     String nametag = data.getString("thaumcomp:sealName");
-                    String message = String.format("Seal connector bound to:\n%s\nDim: %d\nX: %d\nY: %d\nZ: %d\nFace: %s",nametag,tag[3],tag[0],tag[1],tag[2],face);
+                    String message = String.format("Bound to: %s Dim: %d X: %d Y: %d Z: %d Face: %s",nametag,tag[3],tag[0],tag[1],tag[2],face);
                     event.getToolTip().add(message);
                 } else {
                     //have tag, but not bound - show not bound in tool tip
