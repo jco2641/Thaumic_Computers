@@ -95,7 +95,7 @@ public final class EnvironmentSealEntity extends ManagedTileEntityEnvironment<IS
             out.put("blacklist",blacklist);
             out.put("limited",limited);
 
-            for(int i = 1; i == filterSize; i++){
+            for(int i = 0; i < filterSize; i++){
                 items.put(((ISealConfigFilter) tileEntity.getSeal()).getFilterSlot(i),
                           ((ISealConfigFilter) tileEntity.getSeal()).getFilterSlotSize(i)
                 );
@@ -121,6 +121,7 @@ public final class EnvironmentSealEntity extends ManagedTileEntityEnvironment<IS
     public Object[] getFilterSlot(final Context context, final Arguments args){
         if(tileEntity.getSeal() instanceof ISealConfigFilter){
             int slot = args.checkInteger(0);
+            if (slot > 0) slot--;
             if (slot > ((ISealConfigFilter) tileEntity.getSeal()).getFilterSize()) return new Object[]{"Index out of range"};
             final ItemStack item = ((ISealConfigFilter) tileEntity.getSeal()).getFilterSlot(slot);
             return new Object[]{item.getDisplayName()};
@@ -132,6 +133,7 @@ public final class EnvironmentSealEntity extends ManagedTileEntityEnvironment<IS
     public Object[] getFilterSlotSize(final Context context, final Arguments args){
         if(tileEntity.getSeal() instanceof ISealConfigFilter){
             int slot = args.checkInteger(0);
+            if (slot > 0) slot--;
             if (slot > ((ISealConfigFilter) tileEntity.getSeal()).getFilterSize()) return new Object[]{"Index out of range"};
             final int stacksize = ((ISealConfigFilter) tileEntity.getSeal()).getFilterSlotSize(slot);
             return new Object[]{stacksize};
