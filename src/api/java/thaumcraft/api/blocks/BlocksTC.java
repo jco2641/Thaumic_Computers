@@ -109,6 +109,8 @@ public class BlocksTC {
 	
 	public static Block bannerCrimsonCult;
 	
+	public static Block inlay;
+	
 	// Machines
 	public static Block arcaneEar;
 	public static Block arcaneEarToggle;
@@ -163,11 +165,13 @@ public class BlocksTC {
 	public static Block condenser;
 	public static Block condenserlattice;
 	public static Block condenserlatticeDirty;
+	public static Block voidSiphon;
 	
 	// Fluids
 	public static Block fluxGoo;	
 	public static Block purifyingFluid;
 	public static Block liquidDeath;
+	public static Block taintDust;
 		
 	// Misc
 	public static Block hole;
@@ -181,6 +185,8 @@ public class BlocksTC {
 	public static Block placeholderAnvil;
 	public static Block placeholderCauldron;
 	public static Block placeholderTable;
+	
+	
 	
 	
 	

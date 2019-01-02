@@ -1,6 +1,7 @@
 package thaumcraft.api;
 
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import thaumcraft.api.blocks.BlocksTC;
@@ -63,9 +64,9 @@ public class OreDictionaryEntries {
 		OreDictionary.registerOre("ingotVoid", new ItemStack(ItemsTC.ingots,1,1));
 		OreDictionary.registerOre("ingotBrass", new ItemStack(ItemsTC.ingots,1,2));
 		
-		OreDictionary.registerOre("blockThaumium", new ItemStack(BlocksTC.metalBlockThaumium,1,0));
-		OreDictionary.registerOre("blockVoid", new ItemStack(BlocksTC.metalBlockVoid,1,1));
-		OreDictionary.registerOre("blockBrass", new ItemStack(BlocksTC.metalBlockBrass,1,4));
+		OreDictionary.registerOre("blockThaumium", new ItemStack(BlocksTC.metalBlockThaumium));
+		OreDictionary.registerOre("blockVoid", new ItemStack(BlocksTC.metalBlockVoid));
+		OreDictionary.registerOre("blockBrass", new ItemStack(BlocksTC.metalBlockBrass));
 		
 		OreDictionary.registerOre("plateIron", new ItemStack(ItemsTC.plate,1,1));
 		OreDictionary.registerOre("plateBrass", new ItemStack(ItemsTC.plate,1,0));
@@ -80,6 +81,9 @@ public class OreDictionaryEntries {
 		OreDictionary.registerOre("clusterLead", new ItemStack(ItemsTC.clusters,1,5));
 		OreDictionary.registerOre("clusterCinnabar", new ItemStack(ItemsTC.clusters,1,6));
 		OreDictionary.registerOre("clusterQuartz", new ItemStack(ItemsTC.clusters,1,7));
+		
+		// for mod recipe compatibility
+		OreDictionary.registerOre("trapdoorWood", new ItemStack(Blocks.TRAPDOOR));
 	
 	}
 

@@ -181,6 +181,7 @@ public class FocusPackage implements IFocusElement {
 		NBTTagList nodelist = new NBTTagList();
 		synchronized (nodes) {
 			for (IFocusElement node:nodes) {
+				if (node==null || node.getType()==null) continue;
 				NBTTagCompound nodenbt = new NBTTagCompound();
 				nodenbt.setString("type", node.getType().name());
 				nodenbt.setString("key", node.getKey());
@@ -231,7 +232,11 @@ public class FocusPackage implements IFocusElement {
 		String s="";
 		for (IFocusElement k:this.nodes) {
 			s+=k.getKey();
-		}
+			if (k instanceof FocusNode && ((FocusNode)k).getSettingList()!=null)
+				for (String ns : ((FocusNode)k).getSettingList()) {
+					s += ""+((FocusNode)k).getSettingValue(ns);
+				}
+		}		
 		return s.hashCode();
 	}
 
