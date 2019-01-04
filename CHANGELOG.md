@@ -3,6 +3,7 @@
     * Update to Forge 14.23.5.2781
     * Update to OpenComputers 1.7.3.146
     * Update to Thaumcraft 6.1.BETA26
+    * Add ownership check to seal binding
 
 **Release 0.4.0**
 
