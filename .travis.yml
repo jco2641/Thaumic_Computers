@@ -4,6 +4,11 @@ jdk: oraclejdk8
 
 install:
   ./gradlew setupCIWorkspace
+
+before_script:
+  - mkdir lib
+  - curl -o lib/Thaumcraft-1.12.2-6.1.BETA26-deobf.jar -L https://www.dropbox.com/s/jex9q8g1tril3uo/Thaumcraft-1.12.2-6.1.BETA26-deobf.jar?dl=1
+
 script:
   ./gradlew build
 
