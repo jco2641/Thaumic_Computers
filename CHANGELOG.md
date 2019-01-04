@@ -1,4 +1,4 @@
-**Release 0.4.1**
+**Release 0.4.2**
 
     * Update to Forge 14.23.5.2781
     * Update to OpenComputers 1.7.3.146

@@ -91,22 +91,28 @@ public class ItemSealConnector extends Item implements ISealDisplayer {
                 int dim = world.provider.getDimension();
                 ISealEntity se = GolemHelper.getSealEntity(dim, new SealPos(pos, side));
                 if (se != null) {
-                    player.swingArm(hand);
-                    if (!stack.hasTagCompound()) {
-                        stack.setTagCompound(new NBTTagCompound());
-                    }
-                    NBTTagCompound data = stack.getTagCompound();
-                    String sealtype = se.getSeal().getKey();
-                    String sealULName = String.format("item.seal.%s.name",sealtype.split(":")[1]);
-                    String sealName = I18n.format(sealULName);
-                    data.setString("thaumcomp:sealName", sealName);
-                    data.setIntArray("thaumcomp:coord", new int[]{pos.getX(), pos.getY(), pos.getZ(), dim, side.getIndex()});
-                    ITextComponent message = new TextComponentString("Binding to:\n");
-                    message.appendText(sealName);
-                    message.appendText(String.format("\nDim: %d\nX: %d\nY: %d\nZ: %d\nFace: %s",dim,pos.getX(),pos.getY(),pos.getZ(),side.getName()));
-                    player.sendMessage(message);
+                    if ( se.getOwner() == player.getUniqueID().toString() || player.capabilities.isCreativeMode ) {
+                        // I'm binding to my seal, or I'm in creative mode
+                        player.swingArm(hand);
+                        if (!stack.hasTagCompound()) {
+                            stack.setTagCompound(new NBTTagCompound());
+                        }
+                        NBTTagCompound data = stack.getTagCompound();
+                        String sealtype = se.getSeal().getKey();
+                        String sealULName = String.format("item.seal.%s.name",sealtype.split(":")[1]);
+                        String sealName = I18n.format(sealULName);
+                        data.setString("thaumcomp:sealName", sealName);
+                        data.setIntArray("thaumcomp:coord", new int[]{pos.getX(), pos.getY(), pos.getZ(), dim, side.getIndex()});
+                        ITextComponent message = new TextComponentString("Binding to:\n");
+                        message.appendText(sealName);
+                        message.appendText(String.format("\nDim: %d\nX: %d\nY: %d\nZ: %d\nFace: %s",dim,pos.getX(),pos.getY(),pos.getZ(),side.getName()));
+                        player.sendMessage(message);
 
-                    return EnumActionResult.SUCCESS;
+                        return EnumActionResult.SUCCESS;
+                    } else {
+                        // I cannot bind to someone else's seal
+                        player.sendMessage(new TextComponentString("That is not your seal"));
+                    }
                 } else {
                     player.sendMessage(new TextComponentString("No seal there"));
                 }
