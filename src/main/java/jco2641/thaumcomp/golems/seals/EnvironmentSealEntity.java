@@ -1,5 +1,6 @@
 package jco2641.thaumcomp.golems.seals;
 
+import jco2641.thaumcomp.config.ModConfig;
 import jco2641.thaumcomp.util.ManagedTileEntityEnvironment;
 
 import li.cil.oc.api.machine.Arguments;
@@ -14,6 +15,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.UsernameCache;
 
 import thaumcraft.api.golems.EnumGolemTrait;
+import thaumcraft.api.golems.seals.ISealConfigArea;
 import thaumcraft.api.golems.seals.ISealConfigToggles;
 import thaumcraft.api.golems.seals.ISealEntity;
 import thaumcraft.api.golems.seals.ISealConfigFilter;
@@ -78,6 +80,7 @@ public final class EnvironmentSealEntity extends ManagedTileEntityEnvironment<IS
      * getFilterSlot           *
      * getFilterSlotSize       *
      * getHasStackSizeLimiters *
+     * getIsBlacklist          *
     \* ======================= */
 
     @Callback(doc = "function():table -- Get the filter properties and contents")
@@ -150,6 +153,16 @@ public final class EnvironmentSealEntity extends ManagedTileEntityEnvironment<IS
         return new Object[]{"No filter"};
     }
 
+    @Callback(doc = "function():boolean -- Is the filter a blacklist or whitelist")
+    public Object[] getIsBlacklist(final Context context, final Arguments args) {
+        if(tileEntity.getSeal() instanceof ISealConfigFilter){
+            final boolean blacklist = ((ISealConfigFilter) tileEntity.getSeal()).isBlacklist();
+            return new Object[]{blacklist};
+        }
+        return new Object[]{"No filter"};
+    }
+
+
     /* ====================== *\
      * = ISealConfigToggles = *
      * getProperties          *
@@ -180,6 +193,12 @@ public final class EnvironmentSealEntity extends ManagedTileEntityEnvironment<IS
      * getIsStoppedByRedstone  *
      * getOwner                *
      * getPriority             *
+     * ------- Setters ------- *
+     * setArea                 *
+     * setColor                *
+     * setIsLocked             *
+     * setIsRedstoneSensitive  *
+     * setPriority             *
     \* ======================= */
 
     @Callback(doc = "function():table -- Get the seal effect dimensions")
@@ -233,5 +252,26 @@ public final class EnvironmentSealEntity extends ManagedTileEntityEnvironment<IS
     public Object[] getPriority(final Context context, final Arguments args){
         final byte priority = tileEntity.getPriority();
         return new Object[] {priority};
+    }
+
+    @Callback (doc = "function(x:int,y:int,z:int):table -- Set the Area affected by the seal, returns area value")
+    public Object[] setArea(final Context context, final Arguments args) {
+        if(ModConfig.allowSetArea) {
+            int x = args.checkInteger(0);
+            int y = args.checkInteger(1);
+            int z = args.checkInteger(2);
+            //clamp values to [0-8] because those are limits TC gui will permit
+            x = x > 8 ? 8 : x < 0 ? 0 : x;
+            y = y > 8 ? 8 : y < 0 ? 0 : y;
+            z = z > 8 ? 8 : z < 0 ? 0 : z;
+            BlockPos pos = new BlockPos(x, y, z);
+            if (tileEntity.getSeal() instanceof ISealConfigArea) {
+                tileEntity.setArea(pos);
+                return getArea(null,null);
+            }
+        } else {
+            return new Object[] {"API action not allowed, see config"};
+        }
+        return getArea(null,null);
     }
 }
