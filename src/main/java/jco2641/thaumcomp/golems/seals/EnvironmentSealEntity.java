@@ -9,7 +9,9 @@ import li.cil.oc.api.machine.Context;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.UsernameCache;
@@ -81,6 +83,10 @@ public final class EnvironmentSealEntity extends ManagedTileEntityEnvironment<IS
      * getFilterSlotSize       *
      * getHasStackSizeLimiters *
      * getIsBlacklist          *
+     * ----- setters -----     *
+     * setFilterSlot           *
+     * setFilterSlotSize       *
+     * setIsBlacklist          *
     \* ======================= */
 
     @Callback(doc = "function():table -- Get the filter properties and contents")
@@ -124,8 +130,8 @@ public final class EnvironmentSealEntity extends ManagedTileEntityEnvironment<IS
     public Object[] getFilterSlot(final Context context, final Arguments args){
         if(tileEntity.getSeal() instanceof ISealConfigFilter){
             int slot = args.checkInteger(0);
+            if (slot > ((ISealConfigFilter) tileEntity.getSeal()).getFilterSize() || slot < 1) return new Object[]{"Index out of range"};
             if (slot > 0) slot--;
-            if (slot > ((ISealConfigFilter) tileEntity.getSeal()).getFilterSize()) return new Object[]{"Index out of range"};
             final ItemStack item = ((ISealConfigFilter) tileEntity.getSeal()).getFilterSlot(slot);
             return new Object[]{item.getDisplayName()};
         }
@@ -136,8 +142,8 @@ public final class EnvironmentSealEntity extends ManagedTileEntityEnvironment<IS
     public Object[] getFilterSlotSize(final Context context, final Arguments args){
         if(tileEntity.getSeal() instanceof ISealConfigFilter){
             int slot = args.checkInteger(0);
+            if (slot > ((ISealConfigFilter) tileEntity.getSeal()).getFilterSize() || slot < 1) return new Object[]{"Slot index out of range"};
             if (slot > 0) slot--;
-            if (slot > ((ISealConfigFilter) tileEntity.getSeal()).getFilterSize()) return new Object[]{"Index out of range"};
             final int stacksize = ((ISealConfigFilter) tileEntity.getSeal()).getFilterSlotSize(slot);
             return new Object[]{stacksize};
         }
@@ -162,6 +168,65 @@ public final class EnvironmentSealEntity extends ManagedTileEntityEnvironment<IS
         return new Object[]{"No filter"};
     }
 
+    @Callback(doc = "function(slot:int, item:string)string -- Set item in specified filter slot, returns item in slot")
+    public Object[] setFilterSlot(final Context context, final Arguments args) {
+        if(ModConfig.allowSetFilterSlot) {
+            if(tileEntity.getSeal() instanceof ISealConfigFilter){
+                int slot = args.checkInteger(0);
+                if (slot > ((ISealConfigFilter) tileEntity.getSeal()).getFilterSize() || slot < 1) return new Object[]{"Slot index out of range"};
+                if (slot > 0) slot--;
+                String name = args.checkString(1);
+                ResourceLocation rlItem = new ResourceLocation(name);
+                Item item = Item.REGISTRY.getObject(rlItem);
+                ItemStack itemStack;
+                if(item != null) {
+                    itemStack = new ItemStack(item);
+                } else {
+                    return new Object[] {"No such item" + name};
+                }
+                ((ISealConfigFilter) tileEntity.getSeal()).setFilterSlot(slot,itemStack);
+            } else {
+                return new Object[]{"No filter"};
+            }
+        } else {
+            return new Object[] {"API action not allowed, see config"};
+        }
+        return getFilterSlot(null,args);
+    }
+
+    @Callback(doc = "function(slot:int,size:int):string -- Set size of item stack in filter slot, returns slot size")
+    public Object[] setFilterSlotSize(final Context context, final Arguments args) {
+        if(ModConfig.allowSetFilterSlotSize){
+            if(tileEntity.getSeal() instanceof ISealConfigFilter) {
+                int slot = args.checkInteger(0);
+                int size = args.checkInteger(1);
+                if (slot > ((ISealConfigFilter) tileEntity.getSeal()).getFilterSize() || slot < 1) return new Object[]{"Slot index out of range"};
+                if(slot > 0) slot--;
+                if(getFilterSlot(null,args)[0].toString().equalsIgnoreCase("air")) return getFilterSlotSize(null, args);
+                ((ISealConfigFilter) tileEntity.getSeal()).setFilterSlotSize(slot,size);
+            } else {
+                return new Object[] {"No Filter"};
+            }
+        } else {
+            return new Object[] {"API action not allowed, see config"};
+        }
+        return getFilterSlotSize(null, args);
+    }
+
+    @Callback(doc = "function(blacklist:boolean):boolean -- Sets if the seal filter is a blacklist or whitelist, returns if the filter is blacklist or whitelist")
+    public Object[] setIsBlacklist(final Context context, final Arguments args) {
+        if(ModConfig.allowSetBlacklist) {
+            if(tileEntity.getSeal() instanceof ISealConfigFilter) {
+                boolean bl = args.checkBoolean(0);
+                ((ISealConfigFilter) tileEntity.getSeal()).setBlacklist(bl);
+            } else {
+                return new Object[] {"No Filter"};
+            }
+        } else {
+            return new Object[] {"API action not allowed, see config"};
+        }
+        return getIsBlacklist(null,null);
+    }
 
     /* ====================== *\
      * = ISealConfigToggles = *
@@ -274,4 +339,52 @@ public final class EnvironmentSealEntity extends ManagedTileEntityEnvironment<IS
         }
         return getArea(null,null);
     }
+
+    @Callback(doc = "function(color:int):string -- Set the color of the seal, returns seal color")
+    public Object[] setColor(final Context context, final Arguments args) {
+        //Valid values are 0-16, where 0 is any color, and 1-16 correspond to 0-15 in the standard minecraft colors (white..black)
+        if(ModConfig.allowSetColor) {
+           int c = args.checkInteger(0);
+            c = c > 16 ? 16 : c < 0 ? 0 : c;
+            tileEntity.setColor((byte)c);
+        } else {
+            return new Object[] {"API action not allowed, see config"};
+        }
+        return getColor(null,null);
+    }
+
+    @Callback(doc = "function(locked:boolean):boolean -- Set the locked state of the seal, returns lock state")
+    public Object[] setIsLocked(final Context context, final Arguments args) {
+        if(ModConfig.allowSetLocked) {
+            boolean l = args.checkBoolean(0);
+            tileEntity.setLocked(l);
+        } else {
+            return new Object[] {"API action not allowed, see config"};
+        }
+        return getIsLocked(null,null);
+    }
+
+    @Callback(doc = "function(sensitive:boolean):boolean -- Set the redstone sensitive state of the seal, returns state")
+    public Object[] setIsRedstoneSensitive(final Context context, final Arguments args) {
+        if(ModConfig.allowSetRedstoneSensitive) {
+            boolean s = args.checkBoolean(0);
+            tileEntity.setRedstoneSensitive(s);
+        } else {
+            return new Object[] {"API action not allowed, see config"};
+        }
+        return getIsRedstoneSensitive(null,null);
+    }
+
+    @Callback(doc = "function(priority:int):int -- Set the seal task priority, returns priority")
+    public Object[] setPriority(final Context context, final Arguments args) {
+        if(ModConfig.allowSetPriority) {
+            int p = args.checkInteger(0);
+            p = p > 5 ? 5 : p < -5 ? -5 : p;
+            tileEntity.setPriority((byte)p);
+        } else {
+            return new Object[] {"API action not allowed, see config"};
+        }
+        return getPriority(null,null);
+    }
+
 }
