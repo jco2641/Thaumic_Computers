@@ -1,9 +1,10 @@
-**Release 0.4.2**
+**Release 0.4.3**
 
     * Update to Forge 14.23.5.2781
     * Update to OpenComputers 1.7.3.146
     * Update to Thaumcraft 6.1.BETA26
     * Add ownership check to seal binding
+    * Add 'set' methods to seal API
 
 **Release 0.4.0**
 

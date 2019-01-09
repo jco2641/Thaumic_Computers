@@ -131,7 +131,7 @@ public final class EnvironmentSealEntity extends ManagedTileEntityEnvironment<IS
         if(tileEntity.getSeal() instanceof ISealConfigFilter){
             int slot = args.checkInteger(0);
             if (slot > ((ISealConfigFilter) tileEntity.getSeal()).getFilterSize() || slot < 1) return new Object[]{"Index out of range"};
-            if (slot > 0) slot--;
+            slot--;
             final ItemStack item = ((ISealConfigFilter) tileEntity.getSeal()).getFilterSlot(slot);
             return new Object[]{item.getDisplayName()};
         }
@@ -143,7 +143,7 @@ public final class EnvironmentSealEntity extends ManagedTileEntityEnvironment<IS
         if(tileEntity.getSeal() instanceof ISealConfigFilter){
             int slot = args.checkInteger(0);
             if (slot > ((ISealConfigFilter) tileEntity.getSeal()).getFilterSize() || slot < 1) return new Object[]{"Slot index out of range"};
-            if (slot > 0) slot--;
+            slot--;
             final int stacksize = ((ISealConfigFilter) tileEntity.getSeal()).getFilterSlotSize(slot);
             return new Object[]{stacksize};
         }
@@ -174,7 +174,7 @@ public final class EnvironmentSealEntity extends ManagedTileEntityEnvironment<IS
             if(tileEntity.getSeal() instanceof ISealConfigFilter){
                 int slot = args.checkInteger(0);
                 if (slot > ((ISealConfigFilter) tileEntity.getSeal()).getFilterSize() || slot < 1) return new Object[]{"Slot index out of range"};
-                if (slot > 0) slot--;
+                slot--;
                 String name = args.checkString(1);
                 ResourceLocation rlItem = new ResourceLocation(name);
                 Item item = Item.REGISTRY.getObject(rlItem);
@@ -201,7 +201,7 @@ public final class EnvironmentSealEntity extends ManagedTileEntityEnvironment<IS
                 int slot = args.checkInteger(0);
                 int size = args.checkInteger(1);
                 if (slot > ((ISealConfigFilter) tileEntity.getSeal()).getFilterSize() || slot < 1) return new Object[]{"Slot index out of range"};
-                if(slot > 0) slot--;
+                slot--;
                 if(getFilterSlot(null,args)[0].toString().equalsIgnoreCase("air")) return getFilterSlotSize(null, args);
                 ((ISealConfigFilter) tileEntity.getSeal()).setFilterSlotSize(slot,size);
             } else {
@@ -342,10 +342,11 @@ public final class EnvironmentSealEntity extends ManagedTileEntityEnvironment<IS
 
     @Callback(doc = "function(color:int):string -- Set the color of the seal, returns seal color")
     public Object[] setColor(final Context context, final Arguments args) {
-        //Valid values are 0-16, where 0 is any color, and 1-16 correspond to 0-15 in the standard minecraft colors (white..black)
+        //Valid values are -1-15, where -1 is any color, and 0-15 correspond to the standard minecraft colors (white..black)
         if(ModConfig.allowSetColor) {
-           int c = args.checkInteger(0);
-            c = c > 16 ? 16 : c < 0 ? 0 : c;
+            int c = args.checkInteger(0);
+            c = c > 15 ? 15 : c < -1 ? -1 : c;
+            c++;
             tileEntity.setColor((byte)c);
         } else {
             return new Object[] {"API action not allowed, see config"};
