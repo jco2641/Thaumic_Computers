@@ -1,22 +1,27 @@
-**Release 0.4.3**
+# Changelog
+
+## Release 0.4.3
+
+    * Add 'set' methods to seal API
+
+## Release 0.4.2
 
     * Update to Forge 14.23.5.2781
     * Update to OpenComputers 1.7.3.146
     * Update to Thaumcraft 6.1.BETA26
     * Add ownership check to seal binding
-    * Add 'set' methods to seal API
 
-**Release 0.4.0**
+## Release 0.4.0
 
     * Update to Thaumcraft 6.1 Beta 16+
 
-**Release 0.3**
+## Release 0.3
 
     * Golems!
         * Implemented golem seal connector item as an upgrade component
         * LUA API functions to read information from seals
 
-**Release 0.2**
+## Release 0.2
 
     * First public release
     * Features
