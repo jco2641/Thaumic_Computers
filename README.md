@@ -7,7 +7,7 @@ Thaumcraft 6 API integration for OpenComputers
 * Read aspects from items in inventories
 * Read information from golem seals
 
-##Future Features
+## Future Features
 
 * Support golem APIs
 
