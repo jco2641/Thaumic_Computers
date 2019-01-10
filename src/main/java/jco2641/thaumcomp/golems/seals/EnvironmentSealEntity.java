@@ -233,7 +233,7 @@ public final class EnvironmentSealEntity extends ManagedTileEntityEnvironment<IS
      * getProperties          *
     \* ====================== */
 
-    @Callback(doc = "getProperties():table -- Get configuration toggles")
+    @Callback(doc = "function():table -- Get configuration toggles")
     public Object[] getProperties(final Context context, final Arguments args){
         final HashMap<Object,Object> filterProps = new HashMap<>();
         final HashMap<Object,Object> out = new HashMap<>();
