@@ -20,6 +20,8 @@ public class ConverterAspectItem implements Converter {
         if (value instanceof ItemStack) {
             final AspectList list = AspectHelper.getObjectAspects((ItemStack) value);
             final HashMap<Object,Object> out = new HashMap<>();
+            if(list == null) return;
+            if(list.size() == 0) return;
             for (Aspect a : list.getAspects()) {
                 out.put(a.getName(), list.getAmount(a));
             }

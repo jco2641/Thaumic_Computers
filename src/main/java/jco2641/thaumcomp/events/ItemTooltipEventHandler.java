@@ -1,6 +1,7 @@
 package jco2641.thaumcomp.events;
 
 import jco2641.thaumcomp.items.ItemSealConnector;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -23,7 +24,8 @@ public class ItemTooltipEventHandler {
                     int[] tag = data.getIntArray("thaumcomp:coord");
                     String face = EnumFacing.getFront(tag[4]).getName();
                     String nametag = data.getString("thaumcomp:sealName");
-                    String message = String.format("Bound to: %s Dim: %d X: %d Y: %d Z: %d Face: %s",nametag,tag[3],tag[0],tag[1],tag[2],face);
+                    String sealName = I18n.format(nametag);
+                    String message = String.format("Bound to: %s Dim: %d X: %d Y: %d Z: %d Face: %s",sealName,tag[3],tag[0],tag[1],tag[2],face);
                     event.getToolTip().add(message);
                 } else {
                     //have tag, but not bound - show not bound in tool tip

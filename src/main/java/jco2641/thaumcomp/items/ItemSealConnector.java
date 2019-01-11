@@ -1,6 +1,7 @@
 package jco2641.thaumcomp.items;
 
 import jco2641.thaumcomp.Reference;
+import jco2641.thaumcomp.ThaumicComputers;
 import li.cil.oc.api.Driver;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.resources.I18n;
@@ -16,6 +17,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
@@ -60,9 +62,11 @@ public class ItemSealConnector extends Item implements ISealDisplayer {
                     if(data.hasKey("thaumcomp:coord")&&data.hasKey("thaumcomp:sealName")){
                         int[] tag = data.getIntArray("thaumcomp:coord");
                         String face = EnumFacing.getFront(tag[4]).getName();
-                        String nametag = data.getString("thaumcomp:sealName");
-                        String message = String.format("Seal connector bound to:\n%s\nDim: %d\nX: %d\nY: %d\nZ: %d\nFace: %s",nametag,tag[3],tag[0],tag[1],tag[2],face);
-                        player.sendMessage(new TextComponentString(message));
+                        String nameTag = data.getString("thaumcomp:sealName");
+                        ITextComponent message = new TextComponentString("Seal connector bound to:\n");
+                        message.appendSibling(new TextComponentTranslation(nameTag));
+                        message.appendText(String.format(" Dim: %d X: %d Y: %d Z: %d Face: %s", tag[3], tag[0], tag[1], tag[2], face));
+                        player.sendMessage(message);
                     } else {
                         player.sendMessage(new TextComponentString("Seal connector not bound"));
                         return new ActionResult<>(EnumActionResult.PASS,stack);
@@ -91,7 +95,7 @@ public class ItemSealConnector extends Item implements ISealDisplayer {
                 int dim = world.provider.getDimension();
                 ISealEntity se = GolemHelper.getSealEntity(dim, new SealPos(pos, side));
                 if (se != null) {
-                    if ( se.getOwner() == player.getUniqueID().toString() || player.capabilities.isCreativeMode ) {
+                    if ( se.getOwner().equalsIgnoreCase(player.getUniqueID().toString()) || player.capabilities.isCreativeMode ) {
                         // I'm binding to my seal, or I'm in creative mode
                         player.swingArm(hand);
                         if (!stack.hasTagCompound()) {
@@ -100,11 +104,10 @@ public class ItemSealConnector extends Item implements ISealDisplayer {
                         NBTTagCompound data = stack.getTagCompound();
                         String sealtype = se.getSeal().getKey();
                         String sealULName = String.format("item.seal.%s.name",sealtype.split(":")[1]);
-                        String sealName = I18n.format(sealULName);
-                        data.setString("thaumcomp:sealName", sealName);
+                        data.setString("thaumcomp:sealName", sealULName);
                         data.setIntArray("thaumcomp:coord", new int[]{pos.getX(), pos.getY(), pos.getZ(), dim, side.getIndex()});
                         ITextComponent message = new TextComponentString("Binding to:\n");
-                        message.appendText(sealName);
+                        message.appendSibling(new TextComponentTranslation(sealULName));
                         message.appendText(String.format("\nDim: %d\nX: %d\nY: %d\nZ: %d\nFace: %s",dim,pos.getX(),pos.getY(),pos.getZ(),side.getName()));
                         player.sendMessage(message);
 
@@ -122,9 +125,11 @@ public class ItemSealConnector extends Item implements ISealDisplayer {
                     if (data.hasKey("thaumcomp:coord") && data.hasKey("thaumcomp:sealName")) {
                         int[] tag = data.getIntArray("thaumcomp:coord");
                         String face = EnumFacing.getFront(tag[4]).getName();
-                        String nametag = data.getString("thaumcomp:sealName");
-                        String message = String.format("Seal connector bound to:\n%s\nDim: %d\nX: %d\nY: %d\nZ: %d\nFace: %s", nametag, tag[3], tag[0], tag[1], tag[2], face);
-                        player.sendMessage(new TextComponentString(message));
+                        String nameTag = data.getString("thaumcomp:sealName");
+                        ITextComponent message = new TextComponentString("Seal connector bound to:\n");
+                        message.appendSibling(new TextComponentTranslation(nameTag));
+                        message.appendText(String.format(" Dim: %d X: %d Y: %d Z: %d Face: %s", tag[3], tag[0], tag[1], tag[2], face));
+                        player.sendMessage(message);
                     } else {
                         player.sendMessage(new TextComponentString("Seal connector not bound"));
                     }
