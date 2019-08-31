@@ -5,6 +5,7 @@ Thaumcraft 6 API integration for OpenComputers
 
 * Read aspects from aspect containers (jars, machines)
 * Read aspects from items in inventories
+* Read Flux and Vis from Dioptera block. Contributed by sug0
 * Read information from golem seals
 
 ## Future Features
@@ -17,7 +18,6 @@ Thaumcraft 6 API integration for OpenComputers
 * Reference OpenComputers extension mods:
   * [ActuallyComputers](https://github.com/canitzp/ActuallyComputers)
   * [TinkersOCDrivers](https://github.com/BrisingrAerowing/TinkersOCDrivers)
-
 
 [occode]:https://github.com/MightyPirates/OpenComputers/tree/master-MC1.7.10/src/main/scala/li/cil/oc/integration/thaumcraft
 [ocmod]:https://github.com/MightyPirates/OpenComputers/
