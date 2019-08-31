@@ -1,5 +1,13 @@
 # Changelog
 
+## Release 0.5.0
+
+	* Add Dioptera support contributed by sug0
+
+## Release 0.4.4
+
+    * Bug fix for dedicated server
+
 ## Release 0.4.3
 
     * Add 'set' methods to seal API
