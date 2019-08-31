@@ -2,7 +2,7 @@
 
 ## Release 0.5.0
 
-	* Add Dioptera support contributed by sug0
+	* Add Dioptra support contributed by sug0
 
 ## Release 0.4.4
 
