@@ -16,6 +16,7 @@ import li.cil.oc.api.driver.DriverItem;
 import jco2641.thaumcomp.aspects.ConverterAspectItem;
 import jco2641.thaumcomp.aspects.DriverAspectContainer;
 import jco2641.thaumcomp.golems.seals.DriverSealConnector;
+import jco2641.thaumcomp.devices.DriverDioptra;
 import jco2641.thaumcomp.items.ItemSealConnector;
 
 @Mod.EventBusSubscriber
@@ -28,6 +29,7 @@ public class CommonProxy {
     public void init(FMLInitializationEvent event) {
 
         // Add OC Drivers
+        Driver.add(new DriverDioptra());
         Driver.add(new DriverAspectContainer());
         Driver.add(new ConverterAspectItem());
         Driver.add((DriverItem) new DriverSealConnector());
