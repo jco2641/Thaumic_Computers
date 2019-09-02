@@ -39,12 +39,13 @@ reckon {
 // Command lines
 // ./gradlew build (defaults to minor, beta)
 // --
-// Dev builds (no release from CI)
+// Dev builds
 // ./gradlew build -Preckon.scope=patch -Preckon.stage=beta
 // ./gradlew build -Preckon.scope=minor -Preckon.stage=beta
 // ./gradlew build -Preckon.scope=major -Preckon.stage=beta
 // --
-// Tags will cause releases from CI
+// Create tags for releases, use githubrelease and curseforge targets to publish
+// API key properties go in ~/.gradle/gradle.properties
 // --
 // ./gradlew build reckonTagPush -Preckon.scope=patch -Preckon.stage=beta
 // ./gradlew build reckonTagPush -Preckon.scope=patch -Preckon.stage=rc
