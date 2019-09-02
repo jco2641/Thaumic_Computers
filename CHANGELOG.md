@@ -1,5 +1,9 @@
 # Changelog
 
+## Release 0.5.1
+
+	* Bug fix for dedicated server
+
 ## Release 0.5.0
 
 	* Add Dioptra support contributed by sug0
